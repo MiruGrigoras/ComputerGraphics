@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="../../common/webgl-utils.js"></script>
+        <script type="text/javascript" src="../../common/initShaders.js"></script>
+        <script type="text/javascript" src="../../common/MV.js"></script>
+        <script type="text/javascript" src="worksheet_part2.js"></script>
+        <script id ="vertex-shader" type="x-shader/x-vertex">
+            attribute vec4 a_Position; 
+            attribute vec4 a_Normal; 
+            varying vec4 v_Normal; 
+
+            uniform mat4 perspectiveMatrix;
+            uniform mat4 viewMatrix;
+            uniform mat4 texMatrix;
+
+            void main() 
+            {
+                gl_Position = perspectiveMatrix * viewMatrix * texMatrix * a_Position ;
+                v_Normal = a_Normal;
+            }
+        </script>
+        <script id="fragment-shader" type="x-shader/x-fragment">
+            precision mediump float;
+            varying vec4 v_Normal;
+  
+            uniform samplerCube texMap;
+  
+          void main(){
+              vec4 N = normalize(v_Normal);
+              gl_FragColor = textureCube(texMap, N.xyz);
+  
+          }
+        </script>
+    </head>
+    <body>
+        <div style="text-align: center; ">
+            <canvas id="gl-canvas" width="512" height="512"></canvas>
+            <div>
+                <button id="increase">Increase number of subdivisions</button>
+                <button id="decrease">Decrease number of subdivisions</button>
+                <button id="switchFrontBack">Switch front/back</button>
+            </div>
+            <div>
+              <select id="filterModeMag">
+                  <option value="nearest">Nearest</option>
+                  <option value="linear">Linear</option>
+              </select>
+            </div>
+    
+            <div>
+              <select id="filterModeMin">
+                  <option value="nearest">Nearest</option>
+                  <option value="linear">Linear</option>
+                  <option value="mipmapnn">MipMap(NN)</option>
+                  <option value="mipmapln">MipMap(LN)</option>
+                  <option value="mipmapnl">MipMap(NL)</option>
+                  <option value="mipmapll">MipMap(LL)</option>
+              </select>
+            </div>
+        </div>
+    </body>
+
+</html>

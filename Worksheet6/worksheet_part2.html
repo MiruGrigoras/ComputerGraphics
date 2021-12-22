@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="../../common/webgl-utils.js"></script>
+        <script type="text/javascript" src="../../common/initShaders.js"></script>
+        <script type="text/javascript" src="../../common/MV.js"></script>
+        <script type="text/javascript" src="worksheet_part2.js"></script>
+        <script id ="vertex-shader" type="x-shader/x-vertex">
+          attribute vec4 a_Position; 
+          attribute vec4 a_Color;
+          attribute vec2 a_TexCoord;
+          
+          varying vec4 v_Color;   
+          varying vec2 v_TexCoord;
+
+          uniform mat4 perspectiveMatrix;
+          uniform mat4 viewMatrix;
+
+          void main() 
+          {
+            v_Color = a_Color;
+            v_TexCoord = a_TexCoord;
+            gl_Position = perspectiveMatrix * viewMatrix * a_Position ;
+          }
+        </script>
+        <script id="fragment-shader" type="x-shader/x-fragment">
+          precision mediump float;
+          varying vec4 v_Color;
+          varying vec2 v_TexCoord;
+          
+          uniform sampler2D texMap;
+          
+          void main(){
+              gl_FragColor = v_Color * texture2D(texMap, v_TexCoord);
+          }
+        </script>
+    </head>
+    <body>
+        <div style="text-align: center; ">
+          <canvas id="gl-canvas" width="512" height="512"></canvas>
+          <div>
+            <select id="wrappingMode">
+              <option value="repeat">Repeat</option>
+              <option value="clamp">Clamp-to-Edge</option>
+              <option value="mirror">Mirrored-Repeat</option>
+            </select>
+          </div>
+  
+          <div>
+            <select id="filterModeMag">
+                <option value="nearest">Nearest</option>
+                <option value="linear">Linear</option>
+            </select>
+          </div>
+  
+          <div>
+            <select id="filterModeMin">
+                <option value="nearest">Nearest</option>
+                <option value="linear">Linear</option>
+                <option value="mipmapnn">MipMap(NN)</option>
+                <option value="mipmapln">MipMap(LN)</option>
+                <option value="mipmapnl">MipMap(NL)</option>
+                <option value="mipmapll">MipMap(LL)</option>
+            </select>
+          </div>
+        </div>
+    </body>
+
+</html>
