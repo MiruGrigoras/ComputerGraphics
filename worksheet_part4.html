@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="author" content="Grigoras Miruna-Nicoleta">
+        <script type="text/javascript" src="../../common/webgl-utils.js"></script>
+        <script type="text/javascript" src="../../common/initShaders.js"></script>
+        <script type="text/javascript" src="../../common/MV.js"></script>
+        <script type="text/javascript" src="worksheet_part4.js"></script>
+        <script id ="vertex-shader" type="x-shader/x-vertex">
+            attribute vec4 a_Position;
+            uniform float u_AngleLoc;
+            void main() { 
+                gl_Position.x = cos(u_AngleLoc) * a_Position.x - sin(u_AngleLoc) *a_Position.y;
+                gl_Position.y = sin(u_AngleLoc) * a_Position.x + cos(u_AngleLoc) *a_Position.y;
+                gl_Position.z = 0.0;
+                gl_Position.w = 1.0;
+            } 
+        </script>
+        <script id="fragment-shader" type="x-shader/x-fragment">
+            precision mediump float; 
+            void main() { 
+                gl_FragColor = vec4(1, 0, 0, 0);
+            } 
+        </script> 
+    </head>
+    <body>
+        <canvas id="gl-canvas" width="512" height="512"/>
+    </body>
+
+</html>
